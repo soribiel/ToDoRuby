@@ -1,0 +1,82 @@
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Listas de Tarefas</h1>
+
+    <div class="mb-4 d-flex justify-content-center">
+        <%= form_with model: @new_list, url: lists_path, local: true, class: "d-flex gap-2", html: { style: "width: 400px;" } do |form| %>
+            <%= form.select :title, options_for_select([
+              ["Hoje (#{Date.today.strftime('%d/%m')})", Date.today],
+              ["Amanhã (#{(Date.today + 1).strftime('%d/%m')})", Date.today + 1],
+              [(Date.today + 2).strftime('%d/%m'), Date.today + 2],
+              [(Date.today + 3).strftime('%d/%m'), Date.today + 3],
+              [(Date.today + 4).strftime('%d/%m'), Date.today + 4]
+            ]), {}, class: "form-select" %>
+            <%= button_tag type: 'submit', class: "btn btn-primary" do %>
+                <i class="fa-solid fa-plus"></i>
+            <% end %>
+        <% end %>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% @lists.each do |list| %>
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">
+                            <% if list.title.to_date == Date.today %>
+                                Hoje
+                            <% elsif list.title.to_date == Date.today + 1 %>
+                                Amanhã
+                            <% else %>
+                                <%= list.title.to_date.strftime('%d/%m/%Y') %>
+                            <% end %>
+                        </h2>
+
+                        <%= form_with model: @new_item, url: add_item_list_path(list), local: true, class: "d-flex flex-column gap-2 mb-3" do |form| %>
+                            <%= form.hidden_field :list_id, value: list.id %>
+                            <div class="mb-2">
+                                <%= form.text_field :content, placeholder: 'Novo item', class: "form-control w-100" %>
+                            </div>
+                            <div class="mb-2">
+                                <%= form.label :priority, 'Prioridade', class: "form-label" %>
+                                <%= form.select :priority, options_for_select([['Baixa Prioridade', 1], ['Média Prioridade', 2], ['Urgente', 3]]), {}, class: "form-select w-100" %>
+                            </div>
+                            <div class="mb-2">
+                                <%= form.label :category, 'Categoria', class: "form-label" %>
+                                <%= form.select :category, options_for_select(Item::CATEGORY.to_a.map { |k, v| [v, k] }), {}, class: "form-select w-100" %>
+                            </div>
+                            <div>
+                                <%= button_tag type: 'submit', class: "btn btn-success w-100" do %>
+                                    <i class="fa-solid fa-plus"></i>
+                                <% end %>
+                            </div>
+                        <% end %>
+
+                        <ul class="list-group">
+                            <% list.items.order(:position).each do |item| %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: 
+                                  <%= case item.priority when 3 then '#f8d7da' when 2 then '#fff3cd' else '#e2f0cb' end %>;">
+                                    <div>
+                                        <%= item.content %>
+                                        <% if item.completed %>
+                                            <span class="badge bg-success ms-2">Concluído</span>
+                                        <% end %>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="<%= asset_path("#{item.category_image}") %>" alt="<%= item.category_name %>" style="width: 30px; height: 30px;" />
+                                        <%= link_to '<i class="fas fa-check"></i>'.html_safe, toggle_item_list_path(list, item_id: item.id), method: :patch, class: "btn btn-sm btn-warning" %>
+                                        <%= link_to '<i class="fas fa-trash"></i>'.html_safe, destroy_item_list_path(list, item_id: item.id), method: :delete, class: "btn btn-sm btn-danger" %>
+                                    </div>
+                                </li>
+                            <% end %>
+                        </ul>
+
+                        <div class="mt-3 d-flex justify-content-between">
+                            <%= link_to 'Ordenar por Prioridade', sort_items_by_priority_list_path(list), method: :patch, class: "btn btn-outline-secondary btn-sm" %>
+                            <%= link_to 'Excluir Lista', list_path(list), method: :delete, class: "btn btn-outline-danger btn-sm" %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

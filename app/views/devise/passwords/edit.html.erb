@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4" style="width: 400px; border-radius: 15px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Altere sua senha 🔐</h3>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="mb-3">
+          <%= f.label :password, "Nova senha", class: "form-label" %>
+          <% if @minimum_password_length %>
+            <small class="text-muted">(mínimo de <%= @minimum_password_length %> caracteres)</small>
+          <% end %>
+          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "Digite a nova senha" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, "Confirme a nova senha", class: "form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Confirme a nova senha" %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.submit "Alterar senha", class: "btn btn-success btn-lg" %>
+        </div>
+      <% end %>
+
+      <hr class="my-4">
+
+      <p class="text-center">
+        <%= link_to "Voltar para o login", new_session_path(resource_name), class: "text-decoration-none" %>
+      </p>
+    </div>
+  </div>
+</div>

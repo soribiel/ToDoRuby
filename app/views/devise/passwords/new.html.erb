@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4" style="width: 400px; border-radius: 15px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Esqueceu sua senha? 🔒</h3>
+      <p class="text-center text-muted mb-4">Digite seu e-mail para receber instruções de redefinição de senha.</p>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="mb-3">
+          <%= f.label :email, "E-mail", class: "form-label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Digite seu e-mail" %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.submit "Enviar instruções", class: "btn btn-warning btn-lg" %>
+        </div>
+      <% end %>
+
+      <hr class="my-4">
+
+      <p class="text-center">
+        <%= link_to "Voltar para o login", new_session_path(resource_name), class: "text-decoration-none" %>
+      </p>
+    </div>
+  </div>
+</div>

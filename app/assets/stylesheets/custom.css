@@ -1,0 +1,84 @@
+.card {
+    border-radius: 10px;
+  }
+  
+  .list-group-item {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7; 
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #e74c3c; 
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+  }
+  
+  .navbar-logo {
+    width: 30px; 
+    height: 30px; 
+  }
+  .login-img, .home-img {
+    width: 20x; 
+    height: 20px; 
+  }
+  .register-img {
+    width: 24x; 
+    height: 24px; 
+  }
+  .navbar-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .navbar-right {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-link:hover {
+    color: #ffd700; 
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .badge img {
+    margin-right: 5px;
+    border-radius: 50%;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
