@@ -11,9 +11,4 @@ test:
   <<: *default
   database: to_do_db_test
 
-production:
-  <<: *default
-  database: to_do_db_production
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
 
